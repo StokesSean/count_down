@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">countdown</string>
+    <string name="vowels">Please enter how many vowels you want</string>
+    <string name="reset">Reset Vowels</string>
+    <string name="start">Play Countdown!</string>
+    <string name="submit">submit</string>
+    <string name="error">Something has gone wrong</string>
+</resources>
