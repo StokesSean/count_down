@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
+import ie.wit.countdown.main.models.*
 
 import ie.wit.countdown.R
 
 import kotlinx.android.synthetic.main.activity_main.*
-
+var countdown= CountdownModel()
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,15 +33,12 @@ class MainActivity : AppCompatActivity() {
                     textView_progress.animate().setDuration(500).rotationBy(360f)
                         .translationY(initialTextViewTranslationY)
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
 
             }
-
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
 
             }
-
         })
         start.setOnClickListener { v ->
             // TO-DO CHANGE THIS TO IT'S OWN VIEW THIS STUFF IS NASTY
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             countdown()
         }
             submit.setOnClickListener {v ->
-                Scoreui.visibility = View.VISIBLE
+
                 score()
 
             }
@@ -90,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         //Local Variables used to make the random string work
 
         var vowelsuser = 0
+        vowelsuser = seekBar.progress
 
         val consonant =
             ("b" + "c" + "d" + "f" + "g" + "h" + "j" + "k" + "l" + "m" + "n" + "p" + "q" + "r" + "s" + "t" + "v" + "x" + "z")
@@ -111,14 +110,14 @@ class MainActivity : AppCompatActivity() {
 
 // This Code will check how many vowels were actually in the string which was generated, it will be commented out later but is here for testing purposes.
 
-       var  printedcountdown = "$randomString" + "$vowelsString"
+      countdown.printedcountdown = "$randomString" + "$vowelsString"
 
 
-        Wordforcountdown.setText(printedcountdown)
+        Wordforcountdown.setText(countdown.printedcountdown)
 
-        printedcountdown = printedcountdown.toLowerCase()
-        for (i in 0..printedcountdown.length - 1) {
-            val ch = printedcountdown[i]
+        countdown.printedcountdown = countdown.printedcountdown.toLowerCase()
+        for (i in 0..countdown.printedcountdown.length - 1) {
+            val ch = countdown.printedcountdown[i]
             if (ch == 'a' || ch == 'e' || ch == 'i'
                 || ch == 'o' || ch == 'u'
             ) {
@@ -132,29 +131,24 @@ class MainActivity : AppCompatActivity() {
 
             //below here will be the scoring method used to be able to check if the correct letters were used in the word
 
-            Wordforcountdown.toString()
-
-
-            var checker = Wordforcountdown.toString()
-
-
-            var word = ""
-            var score = 1
-
-            word = answer.toString()
-
-            word = word.toLowerCase()
-
-            score = word.count { checker.contains(it) }
 
 
 
-            println("the word you have entered is $word ")
-            if (score != word.length) {
-                Scoreui.visibility = View.VISIBLE
-                Scoreui.setText(score)
+
+            countdown.answer = answer.text.toString()
+
+
+
+            countdown.score = countdown.answer.count { countdown.printedcountdown.contains(it) }
+
+
+
+            println("the word you have entered is ${countdown.answer} ")
+            if (countdown.score == countdown.answer.length) {
+                val Congratulations = getString(R.string.Congratulations) + "${countdown.score}"
+                Toast.makeText(this, Congratulations, Toast.LENGTH_LONG).show()
             } else {
-                val error = getString(R.string.error)
+                val error = getString(R.string.error) + "${countdown.answer}"
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show()
                 println("You have used a letter in you're word that is not in the other word ")
             }
