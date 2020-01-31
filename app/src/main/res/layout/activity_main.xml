@@ -69,8 +69,8 @@
 
     <TextView
         android:id="@+id/Wordforcountdown"
-        android:layout_width="194dp"
-        android:layout_height="112dp"
+        android:layout_width="185dp"
+        android:layout_height="148dp"
         android:backgroundTint="#394EC2"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"

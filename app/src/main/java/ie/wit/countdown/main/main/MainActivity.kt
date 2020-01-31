@@ -131,10 +131,6 @@ class MainActivity : AppCompatActivity() {
 
             //below here will be the scoring method used to be able to check if the correct letters were used in the word
 
-
-
-
-
             countdown.answer = answer.text.toString()
 
 
@@ -145,8 +141,8 @@ class MainActivity : AppCompatActivity() {
 
             println("the word you have entered is ${countdown.answer} ")
             if (countdown.score == countdown.answer.length) {
-                val Congratulations = getString(R.string.Congratulations) + "${countdown.score}"
-                Toast.makeText(this, Congratulations, Toast.LENGTH_LONG).show()
+                val congratulations = getString(R.string.Congratulations) + "${countdown.score}"
+                Toast.makeText(this, congratulations, Toast.LENGTH_LONG).show()
             } else {
                 val error = getString(R.string.error) + "${countdown.answer}"
                 Toast.makeText(this, error, Toast.LENGTH_LONG).show()
@@ -155,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-    }
+}
 
 
 
