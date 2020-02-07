@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="132dp"
         android:padding="16dp">
 
         <TextView
@@ -58,6 +58,18 @@
             android:layout_marginEnd="67dp"
             android:layout_marginBottom="5dp"
             app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="18dp"
+            android:layout_toStartOf="@+id/score" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

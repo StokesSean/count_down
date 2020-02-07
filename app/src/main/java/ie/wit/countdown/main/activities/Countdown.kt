@@ -1,5 +1,6 @@
 package ie.wit.countdown.main.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,9 @@ import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
+import com.google.firebase.auth.FirebaseAuth
 import ie.wit.countdown.R
 import ie.wit.countdown.main.main.CountdownApp
 import ie.wit.countdown.main.models.CountdownModel
@@ -77,6 +81,7 @@ class Countdown : AppCompatActivity() {
             seekBar.progress = 1
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -113,10 +118,7 @@ class Countdown : AppCompatActivity() {
         Log.v("Test","${  printedcountdown }")
         printedcountdown.toUpperCase()
         Wordforcountdown.setText(printedcountdown)
-
-
     }
-
     fun score() {
 
         //below here will be the scoring method used to be able to check if the correct letters were used in the word

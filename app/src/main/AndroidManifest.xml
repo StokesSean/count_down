@@ -10,8 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".main.activities.Scoreboard" />
-        <activity android:name=".main.activities.Countdown">
+        <activity android:name=".main.activities.Countdown"/>
+        <activity android:name=".main.activities.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
