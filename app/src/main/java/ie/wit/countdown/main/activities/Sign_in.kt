@@ -40,7 +40,7 @@ class Home : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
-                startActivity(Intent(this, Countdown::class.java))
+                startActivity(Intent(this, Homescreen::class.java))
                 Log.v(
                     "Test",
                     "I have just logged in with   ${FirebaseAuth.getInstance().currentUser!!.displayName.toString()}"

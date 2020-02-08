@@ -35,7 +35,7 @@ class CountdownAdapter constructor(private var countdowns: List<CountdownModel>)
 
         fun bind(countdown: CountdownModel) {
 
-            itemView.score.setText(countdown.score.toString())
+            itemView.scoredis.setText(countdown.score.toString())
             itemView.answer.setText(countdown.answer)
             itemView.printed.setText(countdown.printedcountdown)
         }
