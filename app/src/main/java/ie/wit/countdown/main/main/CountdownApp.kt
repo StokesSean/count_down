@@ -13,6 +13,7 @@ class CountdownApp : Application() {
         super.onCreate()
         countdownstore = CountdownMemStore()
         Log.v("Countdown","Countdown has started")
+
     }
 
 

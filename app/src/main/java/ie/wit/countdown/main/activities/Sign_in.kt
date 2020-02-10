@@ -8,14 +8,18 @@ import android.util.Log
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import ie.wit.countdown.R
+import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.nav_header_home.*
+import kotlinx.android.synthetic.main.nav_header_home.view.*
 
 val providers = arrayListOf(
     AuthUI.IdpConfig.EmailBuilder().build(),
     AuthUI.IdpConfig.GoogleBuilder().build())
 var RC_SIGN_IN = 1
 
-class Home : AppCompatActivity() {
+class SignIn : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +44,17 @@ class Home : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
+
+
+
+
+
                 startActivity(Intent(this, Homescreen::class.java))
                 Log.v(
                     "Test",
                     "I have just logged in with   ${FirebaseAuth.getInstance().currentUser!!.displayName.toString()}"
+
+
                 )
 
                 // ...

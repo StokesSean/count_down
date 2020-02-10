@@ -19,20 +19,20 @@
     <string name="login_failed">"Login failed"</string>
 
 
-    <string name="title_activity_home">Home</string>
+    <string name="title_activity_home">C O U N T D O W N</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Donation (Lab K07a)</string>
-    <string name="nav_header_subtitle">voteforhomer@android.com</string>
+    <string name="nav_header_title">I am lazy and cant come up with a better name</string>
+    <string name="nav_header_subtitle">VoteSinnFein@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_donate">Donate</string>
-    <string name="menu_report">Report</string>
-    <string name="menu_favourites">Favourites</string>
+    <string name="menu_countdown">Play CountDown!</string>
+    <string name="menu_history">History</string>
+    <string name="menu_leaders">Leaderboard</string>
     <string name="menu_about">About Us</string>
     <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_logout">Log-out</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

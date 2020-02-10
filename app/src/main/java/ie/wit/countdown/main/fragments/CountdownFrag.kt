@@ -3,38 +3,34 @@ package ie.wit.countdown.main.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
+import com.squareup.picasso.Picasso
 
 import ie.wit.countdown.R
 import ie.wit.countdown.main.activities.Homescreen
+import ie.wit.countdown.main.activities.user
 
-import ie.wit.countdown.main.main.CountdownApp
 import ie.wit.countdown.main.models.CountdownModel
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.card_countdown.view.*
 import kotlinx.android.synthetic.main.fragment_countdown.*
 
 import kotlinx.android.synthetic.main.fragment_countdown.view.*
 import kotlinx.android.synthetic.main.fragment_countdown.view.answer
+import kotlinx.android.synthetic.main.nav_header_home.*
+import kotlinx.android.synthetic.main.nav_header_home.view.*
+import ie.wit.countdown.main.main.CountdownApp as CountdownApp
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [Countdownfrag.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [Countdownfrag.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 
 class Countdownfrag :  Fragment() {
 
@@ -48,6 +44,7 @@ class Countdownfrag :  Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
 
+
     ): View? {
 
         val root = inflater.inflate(R.layout.fragment_countdown, container, false)
@@ -55,9 +52,9 @@ class Countdownfrag :  Fragment() {
 
 
 
-    val initialTextViewTranslationY = root.textView_progress.translationY
-    root.seekBar.progress = 1
-    root.seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+        val initialTextViewTranslationY = root.textView_progress.translationY
+           root.seekBar.progress = 1
+           root.seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             root.textView_progress.text = progress.toString()
 
@@ -76,6 +73,8 @@ class Countdownfrag :  Fragment() {
 
         }
     })
+
+
     root.start.setOnClickListener {v ->
         countdown()
         root.submit.visibility = View.VISIBLE
@@ -118,6 +117,9 @@ class Countdownfrag :  Fragment() {
         return root;
 
     }
+
+
+
     fun countdown() {
         var vowelsuser : Int
         vowelsuser = seekBar.progress
