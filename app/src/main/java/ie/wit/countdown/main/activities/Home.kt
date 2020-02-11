@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -38,13 +39,18 @@ class Homescreen : AppCompatActivity(),
     lateinit var ft: FragmentTransaction
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
-
-
+        if (user != null ) {
+            nav_view.getHeaderView(0).name.text = user?.displayName
+            nav_view.getHeaderView(0).email.text = user?.email
+            Picasso.get().load(user?.photoUrl).into(nav_view.getHeaderView(0).usersimg)
+        }
         nav_view.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(
@@ -68,17 +74,29 @@ class Homescreen : AppCompatActivity(),
 
     }
 
+
+
+    override fun onResume() {
+        super.onResume()
+        var newuser = FirebaseAuth.getInstance().currentUser
+        if (newuser != null ) {
+            nav_view.getHeaderView(0).name.text = newuser?.displayName
+            nav_view.getHeaderView(0).email.text = newuser?.email
+            Picasso.get().load(newuser?.photoUrl).into(nav_view.getHeaderView(0).usersimg)
+        }
+    }
+
+
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
 
 
         menuInflater.inflate(R.menu.menu_home, menu)
         return true
 
-        navheaders.name.text = user?.displayName
-        navheaders.email.text = user?.email
 
-
-        Picasso.get().load(user?.photoUrl).into(usersimg)
     }
     private fun navigateTo(fragment: Fragment) {
 
@@ -96,11 +114,13 @@ class Homescreen : AppCompatActivity(),
             R.id.nav_donate -> navigateTo(Countdownfrag.newInstance())
             R.id.nav_report -> navigateTo(ScoreboardFrag.newInstance())
             R.id.nav_logout -> AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener {
-                    startActivity(Intent(this, SignIn::class.java))
+                               .signOut(this)
+                               .addOnCompleteListener {
+                               startActivity(Intent(this, SignIn::class.java))
                 }
+
             else -> println("You Selected Something Else")
+
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

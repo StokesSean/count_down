@@ -53,8 +53,6 @@ class SignIn : AppCompatActivity() {
                 Log.v(
                     "Test",
                     "I have just logged in with   ${FirebaseAuth.getInstance().currentUser!!.displayName.toString()}"
-
-
                 )
 
                 // ...

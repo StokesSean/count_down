@@ -71,5 +71,17 @@
             android:layout_marginEnd="18dp"
             android:layout_toStartOf="@+id/scoredis" />
 
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/printed"
+            android:layout_alignStart="@+id/printed"
+            android:layout_alignEnd="@+id/printed"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="53dp"
+            android:text="TextView" />
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

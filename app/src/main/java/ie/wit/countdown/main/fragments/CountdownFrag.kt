@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 
 import ie.wit.countdown.R
@@ -15,6 +18,7 @@ import ie.wit.countdown.main.activities.Homescreen
 import ie.wit.countdown.main.activities.user
 
 import ie.wit.countdown.main.models.CountdownModel
+import ie.wit.countdown.main.models.lastId
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.card_countdown.view.*
 import kotlinx.android.synthetic.main.fragment_countdown.*
@@ -25,18 +29,27 @@ import kotlinx.android.synthetic.main.nav_header_home.*
 import kotlinx.android.synthetic.main.nav_header_home.view.*
 import ie.wit.countdown.main.main.CountdownApp as CountdownApp
 
+
+
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-
+// Write a message to the database
+private lateinit var database: DatabaseReference
 
 class Countdownfrag :  Fragment() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = activity?.application as CountdownApp
+        database = FirebaseDatabase.getInstance().reference
+
+        // Write a message to the database
+
 
     }
 
@@ -49,6 +62,7 @@ class Countdownfrag :  Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_countdown, container, false)
         activity?.title = "Countdown"
+
 
 
 
@@ -75,12 +89,11 @@ class Countdownfrag :  Fragment() {
     })
 
 
-    root.start.setOnClickListener {v ->
+    root.start.setOnClickListener {
         countdown()
         root.submit.visibility = View.VISIBLE
         root.Wordforcountdown.visibility = View.VISIBLE
         root.answer.visibility = View.VISIBLE
-
 
         root.textView_progress.visibility = View.GONE
         root.howMany.visibility = View.GONE
@@ -90,7 +103,7 @@ class Countdownfrag :  Fragment() {
 
     }
 
-    root.submit.setOnClickListener {v ->
+    root.submit.setOnClickListener {
 
         score()
         root.submit.visibility = View.GONE
@@ -153,10 +166,36 @@ class Countdownfrag :  Fragment() {
 
 
             app.countdownstore.create(CountdownModel(score = score , answer = answer , printedcountdown = printedCountdown))
+
+            var userinfo = FirebaseAuth.getInstance().currentUser
+
+
             val congratulations = getString(R.string.Congratulations) + " ${score} " + "  Points!"
             Toast.makeText(activity, congratulations, Toast.LENGTH_LONG).show()
 
+            val ref = FirebaseDatabase.getInstance().getReference("Countdown/$printedCountdown")
+            if (userinfo != null) {
+                var data = CountdownModel(
+                    id = lastId,
+                    score = score,
+                    answer = answer,
+                    printedcountdown = printedCountdown,
+                    usere_email = userinfo.email.toString(),
+                    username = userinfo.displayName.toString(),
+                    userid = userinfo.uid.toString(),
+                    photo_url = userinfo.photoUrl.toString()
 
+                )
+                print("$data")
+                ref.setValue(data)
+                    .addOnSuccessListener {
+                       print("Database has worked $data has been uploaded")
+                    }
+                    .addOnFailureListener {
+                        print("Database has not worked ")
+                    }
+
+            }
 
 
         } else {
@@ -165,6 +204,7 @@ class Countdownfrag :  Fragment() {
             println("You have used a letter in you're word that is not in the other word ")
         }
     }
+
     companion object {
         @JvmStatic
         fun newInstance() =
