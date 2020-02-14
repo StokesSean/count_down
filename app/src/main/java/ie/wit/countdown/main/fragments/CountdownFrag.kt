@@ -174,6 +174,7 @@ class Countdownfrag :  Fragment() {
             Toast.makeText(activity, congratulations, Toast.LENGTH_LONG).show()
 
             val ref = FirebaseDatabase.getInstance().getReference("Countdown/$printedCountdown")
+
             if (userinfo != null) {
                 var data = CountdownModel(
                     id = lastId,
@@ -182,7 +183,7 @@ class Countdownfrag :  Fragment() {
                     printedcountdown = printedCountdown,
                     usere_email = userinfo.email.toString(),
                     username = userinfo.displayName.toString(),
-                    userid = userinfo.uid.toString(),
+                    userid = userinfo.uid,
                     photo_url = userinfo.photoUrl.toString()
 
                 )
