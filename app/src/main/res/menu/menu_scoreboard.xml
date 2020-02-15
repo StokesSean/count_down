@@ -2,11 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".main.activities.Scoreboard">
+    tools:context="ie.wit.activities.Donate">
 
     <item
-        android:id="@+id/action_countdown"
+        android:id="@+id/score5"
         android:orderInCategory="100"
-        android:title="Play Countdown!"
+        android:title="Score higher than 5 "
         app:showAsAction="never" />
+    <item
+        android:id="@+id/score6"
+        android:orderInCategory="100"
+        android:title="Score higher than 6 "
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/score7"
+        android:orderInCategory="100"
+        android:title="Score higher than 7 "
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/score8"
+        android:orderInCategory="100"
+        android:title="Score higher than 8 "
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/score9"
+        android:orderInCategory="100"
+        android:title="See all 9 letter words "
+        app:showAsAction="never" />
+
+
 </menu>

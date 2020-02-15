@@ -12,4 +12,4 @@ data class CountdownModel(var printedcountdown: String ="",
                           var userid: String ="",
                           var username: String ="",
                           var photo_url: String ="",
-                          var usere_email: String =""): Parcelable
+                          var user_email: String =""): Parcelable
