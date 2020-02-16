@@ -123,7 +123,6 @@ class Countdownfrag :  Fragment() {
                     username = userinfo.displayName.toString(),
                     userid = userinfo.uid.toString(),
                     photo_url = userinfo.photoUrl.toString()
-
                 )
                 print("$data")
                 ref.setValue(data)

@@ -28,6 +28,7 @@ androidExtensions {
     experimental = true
 }
 dependencies {
+    implementation "org.jetbrains.anko:anko-commons:0.10.5"
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'

@@ -1,6 +1,7 @@
 package ie.wit.countdown.main.models
 
 import android.util.Log
+
 var lastId = 0L
 internal fun getId() : Long { return lastId++ }
 class CountdownMemStore : CountdownStore {
@@ -16,6 +17,20 @@ class CountdownMemStore : CountdownStore {
         countdowns.add(countdown)
         logAll()
     }
+
+    override fun update(countdown: CountdownModel) {
+        var foundCountdown : CountdownModel? = countdowns.find { a -> a.id == countdown.id }
+        if( foundCountdown != null){
+            foundCountdown.answer = countdown.answer
+        }
+    }
+
+    override fun delete(countdown: CountdownModel) {
+        countdowns.remove(countdown)
+    }
+
+
+
     fun logAll() {
         Log.v("coundown", "Countdown List")
         countdowns.forEach { Log.v("countdown", "$it") }
