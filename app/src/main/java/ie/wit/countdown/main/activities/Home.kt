@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_scoreboard.*
 import kotlinx.android.synthetic.main.nav_header_home.view.*
+
 val user = FirebaseAuth.getInstance().currentUser
 class Homescreen : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
@@ -90,12 +91,50 @@ class Homescreen : AppCompatActivity(),
             override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
 
             }
-            override fun onChildRemoved(p0: DataSnapshot) {
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                Log.d("db", "onChildAdded:" + dataSnapshot.key!!)
+                for (DataSnapshot in dataSnapshot.getChildren()) {
+                    val countdowninfo = CountdownModel()
+                    val databasetest = DataSnapshot.getValue(countdowninfo::class.java)
+                    dataSnapshot.child("/").key
+                    if (databasetest != null) {
+                        app.countdownstore.create(
+                            CountdownModel(
+                                printedcountdown = databasetest.printedcountdown,
+                                answer = databasetest.answer,
+                                score = databasetest.score,
+                                user_email = databasetest.user_email,
+                                username = databasetest.username,
+                                userid = databasetest.userid,
+                                photo_url = databasetest.photo_url
+                            )
+                        )
+                        val adapter = CountdownAdapter(app.countdownstore.findAll())
+                        adapter!!.notifyDataSetChanged()
+                    }
+                }
             }
         }
         database.addChildEventListener(childEventListener)
     }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var listcountdowns = app.countdownstore.findAll()
+        var filtered5 = listcountdowns.filter { it.score >= 5 }
+        var filtered6 = listcountdowns.filter { it.score >= 6 }
+        var filtered7 = listcountdowns.filter { it.score >= 7 }
+        var filtered8 = listcountdowns.filter { it.score >= 8 }
+        var filtered9 = listcountdowns.filter { it.score >= 9 }
+        when (item.itemId) {
+            R.id.score5 -> recyclerView.adapter = CountdownAdapter(filtered5)
+            R.id.score6 -> recyclerView.adapter = CountdownAdapter(filtered6)
+            R.id.score7 -> recyclerView.adapter = CountdownAdapter(filtered7)
+            R.id.score8 -> recyclerView.adapter = CountdownAdapter(filtered8)
+            R.id.score9 -> recyclerView.adapter = CountdownAdapter(filtered9)
+        }
 
+        return super.onOptionsItemSelected(item)
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
            override fun onResume() {
             super.onResume()
             //Below codes checks if a new user has logged in and changes the details to that.
@@ -114,25 +153,8 @@ class Homescreen : AppCompatActivity(),
             return true
 
         }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        var listcountdowns = app.countdownstore.findAll()
-        var filtered5 = listcountdowns.filter { it.score >= 5 }
-        var filtered6 = listcountdowns.filter { it.score >= 6 }
-        var filtered7 = listcountdowns.filter { it.score >= 7 }
-        var filtered8 = listcountdowns.filter { it.score >= 8 }
-        var filtered9 = listcountdowns.filter { it.score >= 9 }
-        when (item.itemId) {
-            R.id.score5 -> recyclerView.adapter = CountdownAdapter(filtered5)
-            R.id.score6 -> recyclerView.adapter = CountdownAdapter(filtered6)
-            R.id.score7 -> recyclerView.adapter = CountdownAdapter(filtered7)
-            R.id.score8 -> recyclerView.adapter = CountdownAdapter(filtered8)
-            R.id.score9 -> recyclerView.adapter = CountdownAdapter(filtered9)
 
-        }
-
-        return super.onOptionsItemSelected(item)
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
+    //This function takes in the input and filters the countdown data class based on that result
 
         private fun navigateTo(fragment: Fragment) {
             supportFragmentManager.beginTransaction()
@@ -158,4 +180,6 @@ class Homescreen : AppCompatActivity(),
                 super.onBackPressed()
         }
     }
+
+
 
