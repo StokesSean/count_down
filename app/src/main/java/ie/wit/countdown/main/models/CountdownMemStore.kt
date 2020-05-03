@@ -17,20 +17,18 @@ class CountdownMemStore : CountdownStore {
         countdowns.add(countdown)
         logAll()
     }
-
     override fun update(countdown: CountdownModel) {
         var foundCountdown : CountdownModel? = countdowns.find { a -> a.id == countdown.id }
         if( foundCountdown != null){
             foundCountdown.answer = countdown.answer
         }
     }
-
     override fun delete(countdown: CountdownModel) {
         countdowns.remove(countdown)
     }
-
-
-
+    override fun clear() {
+        countdowns.clear()
+    }
     fun logAll() {
         Log.v("coundown", "Countdown List")
         countdowns.forEach { Log.v("countdown", "$it") }

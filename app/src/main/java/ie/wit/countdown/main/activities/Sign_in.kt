@@ -8,6 +8,8 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import ie.wit.countdown.R
+import ie.wit.countdown.main.util.firebasefuncs
+
 val providers = arrayListOf(
     AuthUI.IdpConfig.EmailBuilder().build(),
     AuthUI.IdpConfig.GoogleBuilder().build())
@@ -30,11 +32,12 @@ class SignIn : AppCompatActivity() {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
+                firebasefuncs().firebasestuff()
                 startActivity(Intent(this, Homescreen::class.java))
                 Log.v("Test", "I have just logged in with   ${user?.displayName.toString()}"
                 )
             } else {
-                // Sign in failed.
+                Log.v("Test", "I have completely and utterly failed to log in")
             }
         }
 

@@ -25,15 +25,16 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_scoreboard.*
 import kotlinx.android.synthetic.main.nav_header_home.view.*
-
+import ie.wit.countdown.main.util.firebasefuncs
 val user = FirebaseAuth.getInstance().currentUser
 class Homescreen : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
     lateinit var ft: FragmentTransaction
-    private lateinit var database: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        firebasefuncs().firebasestuff()
         app = application as CountdownApp
         //Below Code sets the DisplayName,Email & Photo of the currently logged in user
         if (user != null) {
@@ -53,88 +54,13 @@ class Homescreen : AppCompatActivity(),
         val fragment = Countdownfrag.newInstance()
         ft.replace(R.id.homeFrame, fragment)
         ft.commit()
-        // This code was meant to update the Nav Header with the total score of the user but it doesn't work for some reason it just displays 0
-            val mylist = app.countdownstore.findAll()
-            val totalscore = mylist.sumBy { it.score }
-            nav_view.getHeaderView(0).totaluserscore.text = "Total Score:  $totalscore"
-        database = FirebaseDatabase.getInstance().reference
-        val childEventListener = object : ChildEventListener {
-            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                Log.d("db", "onChildAdded:" + dataSnapshot.key!!)
-                for (DataSnapshot in dataSnapshot.getChildren()) {
-                    val countdowninfo = CountdownModel()
-                    val databasetest = DataSnapshot.getValue(countdowninfo::class.java)
-                    dataSnapshot.child("/").key
-                    if (databasetest != null) {
-                        app.countdownstore.create(
-                            CountdownModel(
-                                printedcountdown = databasetest.printedcountdown,
-                                answer = databasetest.answer,
-                                score = databasetest.score,
-                                user_email = databasetest.user_email,
-                                username = databasetest.username,
-                                userid = databasetest.userid,
-                                photo_url = databasetest.photo_url
-                            )
-                        )
-                        val adapter = CountdownAdapter(app.countdownstore.findAll())
-                        adapter!!.notifyDataSetChanged()
-                    }
-                }
-            }
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented")
-            }
-            override fun onChildMoved(dataSnapshot: DataSnapshot, p1: String?) {
-
-            }
-            override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
-
-            }
-            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                Log.d("db", "onChildAdded:" + dataSnapshot.key!!)
-                for (DataSnapshot in dataSnapshot.getChildren()) {
-                    val countdowninfo = CountdownModel()
-                    val databasetest = DataSnapshot.getValue(countdowninfo::class.java)
-                    dataSnapshot.child("/").key
-                    if (databasetest != null) {
-                        app.countdownstore.create(
-                            CountdownModel(
-                                printedcountdown = databasetest.printedcountdown,
-                                answer = databasetest.answer,
-                                score = databasetest.score,
-                                user_email = databasetest.user_email,
-                                username = databasetest.username,
-                                userid = databasetest.userid,
-                                photo_url = databasetest.photo_url
-                            )
-                        )
-                        val adapter = CountdownAdapter(app.countdownstore.findAll())
-                        adapter!!.notifyDataSetChanged()
-                    }
-                }
-            }
-        }
-        database.addChildEventListener(childEventListener)
+        var mylist = app.countdownstore.findAll()
+        var ueertotscore = mylist.filter { it.user_email == user!!.email }
+        val totalscore = ueertotscore.sumBy { it.score }
+        nav_view.getHeaderView(0).totaluserscore.text = "Total Score:  $totalscore"
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        var listcountdowns = app.countdownstore.findAll()
-        var filtered5 = listcountdowns.filter { it.score >= 5 }
-        var filtered6 = listcountdowns.filter { it.score >= 6 }
-        var filtered7 = listcountdowns.filter { it.score >= 7 }
-        var filtered8 = listcountdowns.filter { it.score >= 8 }
-        var filtered9 = listcountdowns.filter { it.score >= 9 }
-        when (item.itemId) {
-            R.id.score5 -> recyclerView.adapter = CountdownAdapter(filtered5)
-            R.id.score6 -> recyclerView.adapter = CountdownAdapter(filtered6)
-            R.id.score7 -> recyclerView.adapter = CountdownAdapter(filtered7)
-            R.id.score8 -> recyclerView.adapter = CountdownAdapter(filtered8)
-            R.id.score9 -> recyclerView.adapter = CountdownAdapter(filtered9)
-        }
 
-        return super.onOptionsItemSelected(item)
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
+
            override fun onResume() {
             super.onResume()
             //Below codes checks if a new user has logged in and changes the details to that.
@@ -143,19 +69,12 @@ class Homescreen : AppCompatActivity(),
                 nav_view.getHeaderView(0).name.text = newuser.displayName
                 nav_view.getHeaderView(0).email.text = newuser.email
                 val mylist = app.countdownstore.findAll()
-                val totalscore = mylist.sumBy { it.score }
+                var ueertotscore = mylist.filter { it.user_email == user!!.email }
+                val totalscore = ueertotscore.sumBy { it.score }
                 nav_view.getHeaderView(0).totaluserscore.text = "$totalscore"
                 Picasso.get().load(newuser.photoUrl).into(nav_view.getHeaderView(0).usersimg)
             }
         }
-        override fun onCreateOptionsMenu(menu: Menu): Boolean {
-            menuInflater.inflate(R.menu.menu_scoreboard, menu)
-            return true
-
-        }
-
-    //This function takes in the input and filters the countdown data class based on that result
-
         private fun navigateTo(fragment: Fragment) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.homeFrame, fragment)

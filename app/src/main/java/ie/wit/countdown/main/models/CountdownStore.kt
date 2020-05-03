@@ -6,4 +6,5 @@ interface CountdownStore {
     fun create(countdown: CountdownModel)
     fun delete(countdown: CountdownModel)
     fun update(countdown: CountdownModel)
+    fun clear()
 }
