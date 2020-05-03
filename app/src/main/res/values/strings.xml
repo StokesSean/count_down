@@ -28,7 +28,7 @@
     <string name="action_settings">Settings</string>
     <string name="total">Total Score: </string>
     <string name="gamestart">Timer Started! You now have 30 Seconds to complete the challenge</string>
-    <string name="gameend">Time is up!, With answer you have you scored: </string>
+    <string name="gameend">Time is up! You submitted to late </string>
 
     <string name="menu_countdown">Play CountDown!</string>
     <string name="menu_history">History</string>

@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_scoreboard.*
 import kotlinx.android.synthetic.main.nav_header_home.view.*
-import ie.wit.countdown.main.util.firebasefuncs
+
 val user = FirebaseAuth.getInstance().currentUser
 class Homescreen : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +34,6 @@ class Homescreen : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        firebasefuncs().firebasestuff()
         app = application as CountdownApp
         //Below Code sets the DisplayName,Email & Photo of the currently logged in user
         if (user != null) {
@@ -54,13 +53,9 @@ class Homescreen : AppCompatActivity(),
         val fragment = Countdownfrag.newInstance()
         ft.replace(R.id.homeFrame, fragment)
         ft.commit()
-        var mylist = app.countdownstore.findAll()
-        var ueertotscore = mylist.filter { it.user_email == user!!.email }
-        val totalscore = ueertotscore.sumBy { it.score }
-        nav_view.getHeaderView(0).totaluserscore.text = "Total Score:  $totalscore"
+
+        nav_view.getHeaderView(0).totaluserscore.text = "Total Score:  "
     }
-
-
            override fun onResume() {
             super.onResume()
             //Below codes checks if a new user has logged in and changes the details to that.
@@ -68,10 +63,7 @@ class Homescreen : AppCompatActivity(),
             if (newuser != null) {
                 nav_view.getHeaderView(0).name.text = newuser.displayName
                 nav_view.getHeaderView(0).email.text = newuser.email
-                val mylist = app.countdownstore.findAll()
-                var ueertotscore = mylist.filter { it.user_email == user!!.email }
-                val totalscore = ueertotscore.sumBy { it.score }
-                nav_view.getHeaderView(0).totaluserscore.text = "$totalscore"
+                nav_view.getHeaderView(0).totaluserscore.text = ""
                 Picasso.get().load(newuser.photoUrl).into(nav_view.getHeaderView(0).usersimg)
             }
         }
